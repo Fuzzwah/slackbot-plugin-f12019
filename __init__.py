@@ -8,7 +8,7 @@ import re
 import random
 from collections import OrderedDict
 import configobj
-from datetime import datetime
+import datetime
 
 from models import *
 
