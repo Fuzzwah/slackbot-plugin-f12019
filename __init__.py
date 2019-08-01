@@ -13,7 +13,7 @@ import dateutil.parser
 
 from models import *
 
-__plugin_name__ = "f12019"
+__plugin_name__ = "formula1"
 __plugin_link__ = "https://www.f1calendar.com/#!/timezone/Australia-Sydney"
 __plugin_color__ = "#33ccff"
 __requires_slackbot_version__ = 161110

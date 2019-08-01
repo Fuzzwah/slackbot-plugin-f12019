@@ -6,7 +6,7 @@ import os
 import dateutil.parser
 from peewee import *
 
-db_file = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "f1.sqlite")
+db_file = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "formula1.sqlite")
 db = SqliteDatabase(db_file)
 
 
