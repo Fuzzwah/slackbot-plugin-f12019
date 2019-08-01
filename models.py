@@ -92,7 +92,7 @@ if not Season2019.table_exists():
             },
             {
                 "name": "Hungarian Grand Prix",
-                "city": "BudapestNext",
+                "city": "Budapest",
                 "date": "2019-08-04",
                 "time": "23:10"
             },

@@ -9,6 +9,7 @@ import random
 from collections import OrderedDict
 import configobj
 from datetime import date
+import dateutil.parser
 
 from models import *
 
@@ -27,11 +28,11 @@ admin_commands_info["!all"] = "display all the races in the database"
 def command_next(user, chat_string, channel, teamid):
     # respond with a random item from our greeting messages from the database
     race = Season2019.select().where(Season2019.datetime >= date.today()).order_by(Season2019.datetime).limit(1).get()
-    outputs.append([channel, "{}, {} - {}".format(race.name, race.city, race.datetime)])
+    outputs.append([channel, "{}, {} - {}".format(race.name, race.city, dateutil.parser.parse(race.datetime).strftime("%d %B, %H:%M"))])
 
 def command_all(user, chat_string, channel, teamid):
     for race in Season2019.select():
-        outputs.append([channel, "{}, {} - {}".format(race.name, race.city, race.datetime)])
+        outputs.append([channel, "{}, {} - {}".format(race.name, race.city, dateutil.parser.parse(race.datetime).strftime("%d %B, %H:%M"))])
 
 """
     EVERYTHING BELOW HERE IS BOILER PLATE PLUGIN CODE
