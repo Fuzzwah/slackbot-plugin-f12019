@@ -27,6 +27,7 @@ admin_commands_info["!all"] = "display all the races in the database"
 
 def command_next(user, chat_string, channel, teamid):
     # respond with a random item from our greeting messages from the database
+    print(channel)
     race = Season2019.select().where(Season2019.datetime >= date.today()).order_by(Season2019.datetime).limit(1).get()
     outputs.append([channel, "{}, {} - {}".format(race.name, race.city, dateutil.parser.parse(race.datetime).strftime("%d %B, %H:%M"))])
 
@@ -35,7 +36,10 @@ def command_all(user, chat_string, channel, teamid):
         outputs.append([channel, "{}, {} - {}".format(race.name, race.city, dateutil.parser.parse(race.datetime).strftime("%d %B, %H:%M"))])
 
 def set_topic():
+    r = {}
     race = Season2019.select().where(Season2019.datetime >= date.today()).order_by(Season2019.datetime).limit(1).get()
+    r['cmd'] = "setTopic"
+    r['channel'] = "f1"
     return "setTopic: {}, {} - {}".format(race.name, race.city, dateutil.parser.parse(race.datetime).strftime("%d %B, %H:%M"))
 
 """
@@ -44,7 +48,7 @@ def set_topic():
 
 __plugin_version__ = 19080101
 
-crontable = [[10, "set_topic"],]
+crontable = [[14400, "set_topic"],]
 outputs = []
 attachments = []
 typing_sleep = 0
