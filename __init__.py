@@ -16,7 +16,7 @@ from models import *
 __plugin_name__ = "formula1"
 __plugin_link__ = "https://www.f1calendar.com/#!/timezone/Australia-Sydney"
 __plugin_color__ = "#33ccff"
-__requires_slackbot_version__ = 161110
+__requires_slackbot_version__ = 19080101
 
 # a dictionary where the keys are the commands and values are explainations of the bot's responses
 commands_info = OrderedDict()
@@ -38,7 +38,7 @@ def set_topic():
     r = {}
     event = Season2019.select().where(Season2019.race >= date.today()).order_by(Season2019.race).limit(1).get()
     r['cmd'] = "setTopic"
-    r['channel'] = "C0TUGEE1Y"
+    r['channel'] = config['channel']
     r['string'] = "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))
     return r 
 
@@ -64,6 +64,7 @@ if not os.path.isfile(cfgfile):
 
     config['owner'] = ""
     config['admin_list'] = ""
+    config['channel'] = ""
     config.write()
 
 def process_cmd(cmd, user, chat_string, channel, teamid):
