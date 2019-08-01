@@ -44,7 +44,7 @@ def set_topic():
 
 __plugin_version__ = 19080101
 
-crontable = [[10, set_topic],]
+crontable = [[10, "set_topic"],]
 outputs = []
 attachments = []
 typing_sleep = 0
