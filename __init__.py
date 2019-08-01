@@ -27,11 +27,11 @@ admin_commands_info["!all"] = "display all the races in the database"
 def command_next(user, chat_string, channel, teamid):
     # respond with a random item from our greeting messages from the database
     race = Season2019.select().where(Season2019.datetime >= date.today()).order_by(Season2019.datetime).limit(1).get()
-    outputs.append([channel, "{}, {} - {}".format(race.name, race.city, race.datetime.strftime("%d %B, %H:%M"))])
+    outputs.append([channel, "{}, {} - {}".format(race.name, race.city, race.datetime)])
 
 def command_all(user, chat_string, channel, teamid):
     for race in Season2019.select():
-        outputs.append([channel, "{}, {} - {}".format(race.name, race.city, race.datetime.strftime("%d %B, %H:%M"))])
+        outputs.append([channel, "{}, {} - {}".format(race.name, race.city, race.datetime)])
 
 """
     EVERYTHING BELOW HERE IS BOILER PLATE PLUGIN CODE
