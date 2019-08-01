@@ -94,7 +94,7 @@ if not Season2019.table_exists():
                 },
                 {
                     "name": "Hungarian Grand Prix",
-                    "city": "BudapestNext",
+                    "city": "Budapest",
                     "race": "2019-08-04T23:10:00+1000",
                     "qual": "2019-08-03T23:00:00+1000"
                 },
