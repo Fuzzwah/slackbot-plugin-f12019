@@ -34,13 +34,17 @@ def command_all(user, chat_string, channel, teamid):
     for race in Season2019.select():
         outputs.append([channel, "{}, {} - {}".format(race.name, race.city, dateutil.parser.parse(race.datetime).strftime("%d %B, %H:%M"))])
 
+def set_topic():
+    race = Season2019.select().where(Season2019.datetime >= date.today()).order_by(Season2019.datetime).limit(1).get()
+    return "setTopic: {}, {} - {}".format(race.name, race.city, dateutil.parser.parse(race.datetime).strftime("%d %B, %H:%M"))
+
 """
     EVERYTHING BELOW HERE IS BOILER PLATE PLUGIN CODE
 """
 
-__plugin_version__ = 161110
+__plugin_version__ = 19080101
 
-crontable = []
+crontable = [14400, set_topic]
 outputs = []
 attachments = []
 typing_sleep = 0
