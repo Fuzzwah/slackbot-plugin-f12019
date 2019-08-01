@@ -27,25 +27,20 @@ admin_commands_info["!all"] = "display all the races in the database"
 
 def command_next(user, chat_string, channel, teamid):
     # respond with a random item from our greeting messages from the database
-    print(channel)
-    race = Season2019.select().where(Season2019.datetime >= date.today()).order_by(Season2019.datetime).limit(1).get()
-    outputs.append([channel, "{}, {} - {}".format(race.name, race.city, dateutil.parser.parse(race.datetime).strftime("%d %B, %H:%M"))])
+    event = Season2019.select().where(Season2019.race >= date.today()).order_by(Season2019.race).limit(1).get()
+    outputs.append([channel, "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))])
 
 def command_all(user, chat_string, channel, teamid):
-    for race in Season2019.select():
-        outputs.append([channel, "{}, {} - {}".format(race.name, race.city, dateutil.parser.parse(race.datetime).strftime("%d %B, %H:%M"))])
+    for event in Season2019.select():
+        outputs.append([channel, "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))])
 
 def set_topic():
     r = {}
-    race = Season2019.select().where(Season2019.datetime >= date.today()).order_by(Season2019.datetime).limit(1).get()
+    event = Season2019.select().where(Season2019.race >= date.today()).order_by(Season2019.race).limit(1).get()
     r['cmd'] = "setTopic"
     r['channel'] = "C0TUGEE1Y"
-    r['string'] = "{}, {} - {}".format(race.name, race.city, dateutil.parser.parse(race.datetime).strftime("%d %B, %H:%M"))
+    r['string'] = "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))
     return r 
-
-"""
-    EVERYTHING BELOW HERE IS BOILER PLATE PLUGIN CODE
-"""
 
 __plugin_version__ = 19080101
 
@@ -53,6 +48,10 @@ crontable = [[14400, "set_topic"],]
 outputs = []
 attachments = []
 typing_sleep = 0
+
+"""
+    EVERYTHING BELOW HERE IS BOILER PLATE PLUGIN CODE
+"""
 
 directory = os.path.dirname(sys.argv[0])
 if not directory.startswith('/'):
