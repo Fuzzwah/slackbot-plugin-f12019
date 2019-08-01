@@ -19,10 +19,10 @@ __requires_slackbot_version__ = 161110
 
 # a dictionary where the keys are the commands and values are explainations of the bot's responses
 commands_info = OrderedDict()
-commands_info["next"] = "bot will reply with the next race"
+commands_info["!next"] = "bot will reply with the next race"
 
 admin_commands_info = OrderedDict()
-admin_commands_info["all"] = "display all the races in the database"
+admin_commands_info["!all"] = "display all the races in the database"
 
 def command_next(user, chat_string, channel, teamid):
     # respond with a random item from our greeting messages from the database
@@ -61,13 +61,14 @@ def process_cmd(cmd, user, chat_string, channel, teamid):
     pattern_cmd = re.compile("^%s" % cmd)
     if pattern_cmd.match(chat_string.lower()):
         command = "command_%s" % cmd.replace('!', '').replace(' ', '_')
-        try:
-            logging.info("Processing command: {}".format(command))
-            chat_string = re.sub("^%s" % cmd, '', chat_string, flags=re.IGNORECASE)
-            globals()[command](user, chat_string.lstrip(' '), channel, teamid)
-        except:
-            logging.error("Something failed when firing the command {}".format(command))
-            logging.debug(chat_string)
+        #try:
+        logging.info("Processing command: {}".format(command))
+        chat_string = re.sub("^%s" % cmd, '', chat_string, flags=re.IGNORECASE)
+        globals()[command](user, chat_string.lstrip(' '), channel, teamid)
+        #except Exception as e:
+        #    logging.error("Something failed when firing the command {}".format(command))
+        #    logging.error(e)
+        #    logging.debug(chat_string)
 
         return True
     else:
