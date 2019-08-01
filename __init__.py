@@ -8,7 +8,7 @@ import re
 import random
 from collections import OrderedDict
 import configobj
-import datetime
+from datetime import date
 
 from models import *
 
@@ -26,7 +26,7 @@ admin_commands_info["!all"] = "display all the races in the database"
 
 def command_next(user, chat_string, channel, teamid):
     # respond with a random item from our greeting messages from the database
-    race = Season2019.select().where(Season2019.datetime >= datetime.date.today()).order_by(Season2019.datetime).limit(1).get()
+    race = Season2019.select().where(Season2019.datetime >= date.today()).order_by(Season2019.datetime).limit(1).get()
     outputs.append([channel, "{}, {} - {}".format(race.name, race.city, race.datetime.strftime("%d %B, %H:%M"))])
 
 def command_all(user, chat_string, channel, teamid):
