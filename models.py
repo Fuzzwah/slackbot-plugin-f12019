@@ -3,7 +3,7 @@
 
 import sys
 import os
-from datetime import datetime
+import dateutil.parser
 from peewee import *
 
 db_file = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "f1.sqlite")
@@ -152,6 +152,6 @@ races = [{
         }]
 for race in races:
     print(race)
-    datetime = datetime.fromisoformat('{}T{}:00+10:00'.format(race['date'], race['time']))
+    datetime = dateutil.parser.parse('{}T{}:00+10:00'.format(race['date'], race['time']))
     g = Season2019(name=race['name'],city=race['city'],datetime=datetime)
     g.save()
