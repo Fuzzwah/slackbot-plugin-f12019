@@ -71,7 +71,7 @@ try:
 except (IOError, KeyError, AttributeError) as e:
     print("Failed to read config file.")
 
-crontable = [[14400, "set_topic"],]
+crontable = [[10, "set_topic"],]
 
 def process_cmd(cmd, user, chat_string, channel, teamid):
     pattern_cmd = re.compile("^%s" % cmd)
