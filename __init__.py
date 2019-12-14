@@ -16,7 +16,7 @@ from models import *
 __plugin_name__ = "formula1"
 __plugin_link__ = "https://www.f1calendar.com/#!/timezone/Australia-Sydney"
 __plugin_color__ = "#33ccff"
-__requires_slackbot_version__ = 19080101
+__requires_slackbot_version__ = 161110
 
 # a dictionary where the keys are the commands and values are explainations of the bot's responses
 commands_info = OrderedDict()
@@ -26,24 +26,24 @@ admin_commands_info = OrderedDict()
 admin_commands_info["!all"] = "display all the races in the database"
 
 def command_next(user, chat_string, channel, teamid):
-    event = Events.select().where(Events.race >= date.today()).order_by(Events.race).limit(1).get()
+    event = Season2019.select().where(Season2019.race >= date.today()).order_by(Season2019.race).limit(1).get()
     outputs.append([channel, "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))])
 
 def command_all(user, chat_string, channel, teamid):
-    for event in Events.select():
+    for event in Season2019.select():
         outputs.append([channel, "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))])
 
 def set_topic():
     r = {}
-    event = Events.select().where(Events.race >= date.today()).order_by(Events.race).limit(1).get()
+    event = Season2019.select().where(Season2019.race >= date.today()).order_by(Season2019.race).limit(1).get()
     r['cmd'] = "setTopic"
-    r['channel'] = config['channel']
-    print(r['channel'])
+    r['channel'] = "C0TUGEE1Y"
     r['string'] = "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))
-    return r 
+    return r
 
-__plugin_version__ = 19121401
+__plugin_version__ = 19080101
 
+crontable = [[14400, "set_topic"],]
 outputs = []
 attachments = []
 typing_sleep = 0
@@ -63,18 +63,9 @@ if not os.path.isfile(cfgfile):
 
     config['owner'] = ""
     config['admin_list'] = ""
-    config['channel'] = ""
     config.write()
 
-try:
-    config = configobj.ConfigObj(cfgfile)
-except (IOError, KeyError, AttributeError) as e:
-    print("Failed to read config file.")
-
-crontable = [[14400, "set_topic"],]
-
 def process_cmd(cmd, user, chat_string, channel, teamid):
-    print(channel)
     pattern_cmd = re.compile("^%s" % cmd)
     if pattern_cmd.match(chat_string.lower()):
         command = "command_%s" % cmd.replace('!', '').replace(' ', '_')
@@ -96,6 +87,12 @@ def prep_data(data):
     """
 
     status = True
+    try:
+        config = configobj.ConfigObj(cfgfile)
+    except (IOError, KeyError, AttributeError) as e:
+        print("Failed to read config file.")
+        status = False
+
     try:
         user = data['user']
     except:
