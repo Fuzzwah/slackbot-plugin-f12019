@@ -37,6 +37,7 @@ def command_all(user, chat_string, channel, teamid):
 def set_topic():
     r = {}
     event = Events.select().where(Events.race >= date.today()).order_by(Events.race).limit(1).get()
+    print(event.sql())
     r['cmd'] = "setTopic"
     r['channel'] = config['channel']
     r['string'] = "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))
@@ -71,7 +72,7 @@ try:
 except (IOError, KeyError, AttributeError) as e:
     print("Failed to read config file.")
 
-crontable = [[10, "set_topic"],]
+crontable = [[14400, "set_topic"],]
 
 def process_cmd(cmd, user, chat_string, channel, teamid):
     pattern_cmd = re.compile("^%s" % cmd)
