@@ -42,8 +42,9 @@ def set_topic():
     r['string'] = "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))
     return r 
 
-__plugin_version__ = 19080101
+__plugin_version__ = 19121401
 
+get_config()
 crontable = [[14400, "set_topic"],]
 outputs = []
 attachments = []
@@ -53,19 +54,25 @@ typing_sleep = 0
     EVERYTHING BELOW HERE IS BOILER PLATE PLUGIN CODE
 """
 
-directory = os.path.dirname(sys.argv[0])
-if not directory.startswith('/'):
-    directory = os.path.abspath("{}/{}".format(os.getcwd(), directory))
+def get_config():
+    directory = os.path.dirname(sys.argv[0])
+    if not directory.startswith('/'):
+        directory = os.path.abspath("{}/{}".format(os.getcwd(), directory))
 
-cfgfile = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "plugins", __plugin_name__, "config.ini")
-if not os.path.isfile(cfgfile):
-    config = configobj.ConfigObj()
-    config.filename = cfgfile
+    cfgfile = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "plugins", __plugin_name__, "config.ini")
+    if not os.path.isfile(cfgfile):
+        config = configobj.ConfigObj()
+        config.filename = cfgfile
 
-    config['owner'] = ""
-    config['admin_list'] = ""
-    config['channel'] = ""
-    config.write()
+        config['owner'] = ""
+        config['admin_list'] = ""
+        config['channel'] = ""
+        config.write()
+
+    try:
+        config = configobj.ConfigObj(cfgfile)
+    except (IOError, KeyError, AttributeError) as e:
+        print("Failed to read config file.")
 
 def process_cmd(cmd, user, chat_string, channel, teamid):
     pattern_cmd = re.compile("^%s" % cmd)
@@ -89,12 +96,6 @@ def prep_data(data):
     """
 
     status = True
-    try:
-        config = configobj.ConfigObj(cfgfile)
-    except (IOError, KeyError, AttributeError) as e:
-        print("Failed to read config file.")
-        status = False
-
     try:
         user = data['user']
     except:
