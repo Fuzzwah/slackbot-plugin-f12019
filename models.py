@@ -15,7 +15,7 @@ class BaseModel(Model):
         database = db
 
 
-class Season2019(BaseModel):
+class Events(BaseModel):
     name = TextField(unique=True)
     city = TextField()
     race = DateTimeField()
@@ -23,8 +23,8 @@ class Season2019(BaseModel):
 
 db.connect()
 
-if not Season2019.table_exists():
-    db.create_tables([Season2019,], safe=True)
+if not Events.table_exists():
+    db.create_tables([Events,], safe=True)
     races = [
                 {
                     "name": "Australian Grand Prix",
@@ -151,12 +151,18 @@ if not Season2019.table_exists():
                     "city": "Yas Marina",
                     "race": "2019-12-02T00:10:00+1000",
                     "qual": "2019-12-01T00:00:00+1000"
-                }
+                },
+                {
+                    "name": "Australian Grand Prix",
+                    "city": "Melbourne",
+                    "race": "2020-03-15T16:10:00+1000",
+                    "qual": "2020-03-14T17:00:00+1000"
+                },                
             ]
     for race in races:
         print(race)
         race_datetime = dateutil.parser.parse(race['race'])
         qual_datetime = dateutil.parser.parse(race['qual'])
         
-        g = Season2019(name=race['name'],city=race['city'],race=race_datetime,qual=qual_datetime)
+        g = Events(name=race['name'],city=race['city'],race=race_datetime,qual=qual_datetime)
         g.save()
