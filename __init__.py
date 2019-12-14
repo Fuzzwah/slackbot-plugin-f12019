@@ -36,8 +36,7 @@ def command_all(user, chat_string, channel, teamid):
 
 def set_topic():
     r = {}
-    print(Events.select().where(Events.race >= date.today()).order_by(Events.race).limit(1).sql())
-    exit()
+    event = Events.select().where(Events.race >= date.today()).order_by(Events.race).limit(1).get()
     r['cmd'] = "setTopic"
     r['channel'] = config['channel']
     r['string'] = "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))
