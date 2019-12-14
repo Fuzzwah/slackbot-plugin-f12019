@@ -16,7 +16,7 @@ class BaseModel(Model):
 
 
 class Events(BaseModel):
-    name = TextField(unique=True)
+    name = TextField()
     city = TextField()
     race = DateTimeField()
     qual = DateTimeField()
