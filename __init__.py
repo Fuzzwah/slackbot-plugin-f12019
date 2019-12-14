@@ -47,7 +47,6 @@ __plugin_version__ = 19121401
 outputs = []
 attachments = []
 typing_sleep = 0
-set_topic()
 
 """
     EVERYTHING BELOW HERE IS BOILER PLATE PLUGIN CODE
@@ -71,6 +70,8 @@ try:
     config = configobj.ConfigObj(cfgfile)
 except (IOError, KeyError, AttributeError) as e:
     print("Failed to read config file.")
+
+set_topic()
 
 crontable = [[14400, "set_topic"],]
 
