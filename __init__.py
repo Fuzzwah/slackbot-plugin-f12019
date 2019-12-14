@@ -26,10 +26,8 @@ admin_commands_info = OrderedDict()
 admin_commands_info["!all"] = "display all the races in the database"
 
 def command_next(user, chat_string, channel, teamid):
-    print(channel)
-    # respond with a random item from our greeting messages from the database
     event = Events.select().where(Events.race >= date.today()).order_by(Events.race).limit(1).get()
-    outputs.append([channel, "{}, {} - Qualifying @ {}, Race @ {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"))])
+    outputs.append([channel, "{}, {} - Qualifying @ {}, Race @ {} DEBUG: {}".format(event.name, event.city, dateutil.parser.parse(event.qual).strftime("%d %B, %H:%M"), dateutil.parser.parse(event.race).strftime("%d %B, %H:%M"), channel)])
 
 def command_all(user, chat_string, channel, teamid):
     for event in Events.select():
